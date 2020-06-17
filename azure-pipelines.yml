@@ -6,11 +6,10 @@ resources:
       ref: refs/heads/development
 
 extends:
-  template: third-party-library-all-platforms-from-conan-center.yml@templates
+  template: third-party-library-all-platforms-from-local-recipe.yml@templates
   parameters:
     package: cmake
     package_version: 3.17.3
-    source_repository: public-conan-center
     destination_repository: ccdc-3rdparty-conan
     build_types:
       - Release
