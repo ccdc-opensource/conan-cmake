@@ -13,7 +13,7 @@ class CMakeConan(ConanFile):
     license = "BSD-3-Clause"
     exports_sources = ["CMakeLists.txt"]
     generators = "cmake"
-    settings = "os", "arch", "build_type"
+    settings = "os", "arch", "compiler", "build_type" 
 
     _source_subfolder = "source_subfolder"
     _cmake = None
@@ -24,6 +24,10 @@ class CMakeConan(ConanFile):
     def configure(self):
         if self.settings.os == "Macos" and self.settings.arch == "x86":
             raise ConanInvalidConfiguration("CMake does not support x86 for macOS")
+
+    def package_id(self):
+        del self.info.settings.compiler
+        del self.info.settings.build_type
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
@@ -37,10 +41,14 @@ class CMakeConan(ConanFile):
             if self.settings.os == "Linux":
                 self._cmake.definitions["OPENSSL_USE_STATIC_LIBS"] = False
                 self._cmake.definitions["CMAKE_EXE_LINKER_FLAGS"] = "-lz"
-            self._cmake.configure()
+            self._cmake.configure(source_folder=self._source_subfolder)
         return self._cmake
 
     def build(self):
+        tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
+                              "project(CMake)",
+                              "project(CMake)\ninclude(\"{}/conanbuildinfo.cmake\")\nconan_basic_setup()".format(
+                                  self.build_folder.replace("\\", "/")))
         if self.settings.os == "Linux":
             tools.replace_in_file(os.path.join(self._source_subfolder, "Utilities", "cmcurl", "CMakeLists.txt"),
                                   "list(APPEND CURL_LIBS ${OPENSSL_LIBRARIES})",
