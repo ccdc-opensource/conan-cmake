@@ -11,6 +11,7 @@ extends:
     package: cmake
     package_version: 3.17.3
     destination_repository: ccdc-3rdparty-conan
+    macos_deployment_target: 10.14
     build_types:
       - Release
     platforms:
