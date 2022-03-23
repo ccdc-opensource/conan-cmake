@@ -60,7 +60,7 @@ class CMakeConan(ConanFile):
 
     def requirements(self):
         if self.options.with_openssl:
-            self.requires("openssl/1.1.1k")
+            self.requires("openssl/1.1.1n")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
@@ -79,7 +79,7 @@ class CMakeConan(ConanFile):
                     self._cmake.definitions["OPENSSL_USE_STATIC_LIBS"] = not self.options["openssl"].shared
             if self.settings.os == "Windows":
                 self._cmake.definitions["CMAKE_SYSTEM_VERSION"] = '10.0.19041.0'
-                    
+
             self._cmake.configure(source_folder=self._source_subfolder)
         return self._cmake
 
