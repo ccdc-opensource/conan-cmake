@@ -10,7 +10,7 @@ extends:
   template: third-party-library-all-platforms-from-local-recipe.yml@templates
   parameters:
     package: cmake
-    package_version: 3.28.1
+    package_version: 3.22.6
     destination_repository: ccdc-3rdparty-conan
     macos_deployment_target: 10.14
     build_types:

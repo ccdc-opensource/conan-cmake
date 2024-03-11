@@ -60,7 +60,7 @@ class CMakeConan(ConanFile):
 
     def requirements(self):
         if self.options.with_openssl:
-            self.requires("openssl/3.0.13")
+            self.requires("openssl/1.1.1w")
 
     def source(self):
         tools.get(**self.conan_data["sources"][self.version])
